@@ -1,4 +1,4 @@
-package com.shobhit.movieapp.activity;
+package com.shobhit.movieapp.mainModule;
 
 import com.shobhit.movieapp.rest.model.Result;
 
@@ -13,11 +13,7 @@ public class MainPresenter {
 
         void showMovieByPopularity(List<Result> mResult);
         void showMovieByRating(List<Result> mResult);
-        void fetchingDataStarted();
-        void fetchingDataOnError();
-        void fetchingDataCompleted();
-
-
+        void showNoInternetConnection();
     }
     public interface Actions{
 

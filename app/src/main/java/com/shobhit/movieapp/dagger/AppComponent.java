@@ -2,9 +2,7 @@ package com.shobhit.movieapp.dagger;
 
 import android.app.Application;
 
-import com.shobhit.movieapp.Presenter.MovieListPresenter;
-import com.shobhit.movieapp.activity.MainActivity;
-import com.shobhit.movieapp.activity.MainPresenter;
+import com.shobhit.movieapp.mainModule.MainActivity;
 import com.shobhit.movieapp.rest.ApiService;
 
 import javax.inject.Singleton;

@@ -1,12 +1,11 @@
-package com.shobhit.movieapp.Presenter;
+package com.shobhit.movieapp.detailModule;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.shobhit.movieapp.R;
-import com.shobhit.movieapp.activity.DetailActivity;
-import com.shobhit.movieapp.activity.DetailPresenter;
+import com.shobhit.movieapp.detailModule.DetailPresenter;
 import com.shobhit.movieapp.realm.IdName;
 import com.shobhit.movieapp.realm.IdNameList;
 

@@ -1,4 +1,4 @@
-package com.shobhit.movieapp.activity;
+package com.shobhit.movieapp.detailModule;
 
 /**
  * Created by abcplusd on 05/12/17.

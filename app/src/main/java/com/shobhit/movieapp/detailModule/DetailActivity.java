@@ -1,31 +1,18 @@
-package com.shobhit.movieapp.activity;
+package com.shobhit.movieapp.detailModule;
 
-import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.shobhit.movieapp.MovieApp;
-import com.shobhit.movieapp.Presenter.DetailViewPresenter;
 import com.shobhit.movieapp.R;
 import com.shobhit.movieapp.Utils.Constants;
-import com.shobhit.movieapp.realm.IdName;
-import com.shobhit.movieapp.realm.IdNameList;
 import com.shobhit.movieapp.rest.model.Result;
-
-import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmList;
 
 public class DetailActivity extends AppCompatActivity implements DetailPresenter.Views {
 
@@ -58,14 +45,17 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
                 detailPresenter.saveRealmData(result.getId());
             }
         });
+
+        if(result!=null)
         setData();
+
         detailPresenter.getDataFromRealm(result.getId());
     }
 
 
     private void setData() {
         if (result.getTitle() != null) {
-            toolbar.setTitle(result.getTitle());
+            toolbar.setTitle(result.getTitle().toUpperCase());
         } else {
             toolbar.setTitle(getString(R.string.n_a));
         }
@@ -74,12 +64,12 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
         } else {
             txtRating.setText(getString(R.string.rating) + getString(R.string.n_a));
         }
-        if (result.getOverview() != null) {
+        if (result.getOverview() != null&&!result.getOverview().isEmpty()) {
             txtSynopsis.setText(getString(R.string.synopsis) + result.getOverview());
         } else {
             txtSynopsis.setText(getString(R.string.synopsis) + getString(R.string.n_a));
         }
-        if (result.getReleaseDate() != null) {
+        if (result.getReleaseDate() != null&&!result.getReleaseDate().isEmpty()) {
             txtReleaseDate.setText(getString(R.string.releasedate) + result.getReleaseDate());
         } else {
             txtReleaseDate.setText(getString(R.string.releasedate) + getString(R.string.n_a));

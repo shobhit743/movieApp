@@ -1,20 +1,18 @@
-package com.shobhit.movieapp.adapter;
+package com.shobhit.movieapp.mainModule;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.shobhit.movieapp.R;
 import com.shobhit.movieapp.Utils.Constants;
-import com.shobhit.movieapp.activity.DetailActivity;
+import com.shobhit.movieapp.detailModule.DetailActivity;
 import com.shobhit.movieapp.rest.model.Result;
 
 import java.io.Serializable;

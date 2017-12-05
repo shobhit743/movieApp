@@ -60,7 +60,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    OkHttpClient.Builder provideOkHttpClient(Cache cache, final Application application) {
+    OkHttpClient.Builder provideOkHttpClient(Cache cache) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BASIC : HttpLoggingInterceptor.Level.NONE);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();

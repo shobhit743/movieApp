@@ -1,15 +1,15 @@
-package com.shobhit.movieapp.Presenter;
+package com.shobhit.movieapp.mainModule;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.MalformedJsonException;
 
-import com.shobhit.movieapp.MovieApp;
+import com.shobhit.movieapp.R;
 import com.shobhit.movieapp.Utils.Constants;
 import com.shobhit.movieapp.Utils.ProgressController;
-import com.shobhit.movieapp.activity.MainPresenter;
 import com.shobhit.movieapp.rest.ApiService;
 import com.shobhit.movieapp.rest.model.SortResponse;
-
-import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,35 +34,45 @@ public class MovieListPresenter implements MainPresenter.Actions {
 
     @Override
     public void fetchMovieByPopularity() {
-        loadApiForPopularMovies();
+
+        if(isNetworkAvailable()) {
+            loadApiForPopularMovies();
+        }
+        else {
+            mView.showNoInternetConnection();
+        }
     }
 
     @Override
     public void fetchMovieByRating() {
-        loadApiForRatedMovies();
+        if(isNetworkAvailable()) {
+            loadApiForRatedMovies();
+        }
+        else {
+            mView.showNoInternetConnection();
+        }
     }
 
     private void loadApiForPopularMovies() {
-        mView.fetchingDataStarted();
-        Observable loginResponseObservable = apiService.getMovieList(Constants.API_KEY, "popularity.desc");
+        ProgressController.getInstance().showProgress(context, context.getString(R.string.loading));
+        Observable loginResponseObservable = apiService.getMovieList(Constants.API_KEY, Constants.POPULARITY);
         loginResponseObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new DisposableObserver<SortResponse>() {
                                @Override
                                public void onComplete() {
-                                   mView.fetchingDataCompleted();
+                                   ProgressController.getInstance().m_Dialog.dismiss();
                                }
 
                                @Override
                                public void onError(Throwable e) {
-                                   mView.fetchingDataOnError();
-
+                                   ProgressController.getInstance().m_Dialog.dismiss();
                                }
 
                                @Override
                                public void onNext(SortResponse response) {
-
+                                   ProgressController.getInstance().m_Dialog.dismiss();
                                    if (response != null) {
                                        mView.showMovieByPopularity(response.getResults());
                                    }
@@ -75,8 +85,8 @@ public class MovieListPresenter implements MainPresenter.Actions {
 
     private void loadApiForRatedMovies() {
 
-        ProgressController.getInstance().showProgress(context, "Loading");
-        Observable loginResponseObservable = apiService.getMovieList(Constants.API_KEY, "vote_average.desc");
+        ProgressController.getInstance().showProgress(context, context.getString(R.string.loading));
+        Observable loginResponseObservable = apiService.getMovieList(Constants.API_KEY, Constants.RATING);
         loginResponseObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -89,6 +99,9 @@ public class MovieListPresenter implements MainPresenter.Actions {
                                @Override
                                public void onError(Throwable e) {
                                    ProgressController.getInstance().m_Dialog.dismiss();
+                                   if(e instanceof MalformedJsonException) {
+                                       mView.showNoInternetConnection();
+                                   }
                                }
 
                                @Override
@@ -102,5 +115,25 @@ public class MovieListPresenter implements MainPresenter.Actions {
                 );
 
     }
+
+    public boolean isNetworkAvailable() {
+        try{
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getNetworkInfo(0);
+            if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
+                return true;
+            }else {
+                netInfo = cm.getNetworkInfo(1);
+                if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
+                    return true;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+
 
 }
