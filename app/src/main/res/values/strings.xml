@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MovieApp</string>
+    <string name="like">like</string>
+    <string name="liked">Liked</string>
+    <string name="unable_to_save_data">Unable to save your like data</string>
+    <string name="sort_by_popularity">Sort By Popularity</string>
+    <string name="sort_by_rating">Sort By Rating</string>
+    <string name="n_a">N/A</string>
+    <string name="rating">"Ratings: "</string>
+    <string name="synopsis">"Synopsis: "</string>
+    <string name="releasedate">"Release Date: "</string>
+    <string name="settings">Settings</string>
+</resources>
